@@ -1,12 +1,9 @@
 class ColladaDom < Formula
   desc "C++ library for loading and saving COLLADA data"
   homepage "https://www.khronos.org/collada/wiki/Portal:COLLADA_DOM"
+  url "https://github.com/rdiankov/collada-dom/archive/v2.5.0.tar.gz"
+  sha256 "3be672407a7aef60b64ce4b39704b32816b0b28f61ebffd4fbd02c8012901e0d"
   head "https://github.com/rdiankov/collada-dom.git"
-
-  stable do
-    url "https://github.com/rdiankov/collada-dom/archive/v2.5.0.tar.gz"
-    sha256 "3be672407a7aef60b64ce4b39704b32816b0b28f61ebffd4fbd02c8012901e0d"
-  end
 
   bottle do
     sha256 "59315cc7de779a0111beba6d3d7144c47827815f3b394de90fbfcf086e6b28d2" => :mojave
@@ -40,7 +37,10 @@ class ColladaDom < Formula
         return 0;
       }
     EOS
-    system ENV.cxx, "test.cpp", "-I#{include}/collada-dom2.5", "-L#{lib}", "-lcollada-dom2.5-dp", "-o", "test"
-    assert_equal `./test`.chomp, "1.5.0"
+    system ENV.cxx, "test.cpp", "-I#{include}/collada-dom2.5",
+                    "-L#{lib}", "-lcollada-dom2.5-dp", "-o", "test"
+
+    # This is the DAE file version, not the package version
+    assert_equal "1.5.0", shell_output("./test").chomp
   end
 end
